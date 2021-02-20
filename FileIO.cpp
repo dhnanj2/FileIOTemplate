@@ -19,7 +19,6 @@ void write_vector(ofstream &out , vector<T> data) {
         out<<i<<" ";
     }
     out<<"\n";
-    return ans;
 }
 
 
