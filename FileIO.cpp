@@ -14,7 +14,7 @@ vector<T> read_vector(ifstream &in) {
 }
 
 template<typename T>
-void write_vector(ofstream &out , vector<T> data) {
+void write_vector(ofstream &out , vector<T> &data) {
     for(auto i:data) {
         out<<i<<" ";
     }
