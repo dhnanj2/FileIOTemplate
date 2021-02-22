@@ -34,69 +34,110 @@ return 0;
 
 }();
 
-vector<int> fread_ints(ifstream &in) {
-    vector<int> ans;
-    int data;
-    while (in>>data) {
-        ans.push_back(data);
-    }
-    return ans;
-}
+class FileIO {
+    // name of the file from which the inputs are taken
+    string file_name ;
+    // path of the file from which the inputs are taken
+    string file_path ;
+    // name of the file in which the outputs are fed
+    string soln_file_name;
+    // input file object
+    ifstream in_file;                           
+    // output file object 
+    ofstream out_file;                          
 
-vector<string> fread_strings(ifstream &in) {
-    vector<string> ans;
-    string data;
-    getline(in,data);
-    stringstream ss(data);
-    while(ss>>data){
-        ans.push_back(data);
+    public: 
+    
+    FileIO(string file_name, string file_path) : file_name(file_name) , file_path(file_path) 
+    {
+        in_file.open(file_path+file_name);
+        if(!in_file) {
+            cerr<<"\n\t\tWrong Input File or Path!!!!!!!\n";
+            exit(0);
+        }
+        soln_file_name = "soln_"+file_name;
+        out_file.open(file_path+soln_file_name);
     }
-    return ans;
-}
+    
+    ~FileIO() {
+        in_file.close();
+        out_file.close();
+    }
 
-template<typename T>
-void fwrite_vector(ofstream &out ,vector<T> &data) {
-    for(auto i:data) {
-        out<<i<<" ";
+    // function to read a single literal from file
+    template<typename T>
+    T read_once() {
+        T data;
+        in_file>>data;
+        return data;
     }
-    out<<"\n";
-}
+
+    // function to read a line from the file and tokenise it into vector<int> 
+    vector<int> read_ints() {
+        vector<int> ans;
+        string data;
+        getline(in_file,data);
+        stringstream ss(data);
+        while(ss>>data){
+            ans.push_back(stoi(data));
+        }
+        return ans;
+    }
+    
+    // function to read a line from the file and tokenise it into vector<string> 
+    vector<string> read_strings() {
+        vector<string> ans;
+        string data;
+        getline(in_file,data);
+        stringstream ss(data);
+        while(ss>>data){
+            ans.push_back(data);
+        }
+        return ans;
+    }
+    
+    // function to write a single literal into outfile
+    template<typename T>
+    void write_once(T &data) {
+        out_file<<data;
+    }
+
+    // function to write a vector<T> into the output file
+    template<typename T>
+    void write_vector(vector<T> &data) {
+        for(auto i:data) {
+            out_file<<i<<" ";
+        }
+        out_file<<"\n";
+    }
+
+};
+
 
 
 int main()
 {
-    string testSet = "a_example";
-    string file_path = "D:\\Google\\HashCode21\\PraciceRound\\";
+    FileIO f("a_example" , "D:\\Google\\HashCode21\\PraciceRound\\");
 
-    ifstream in_file(file_path+testSet);
+    int m = f.read_once<int>();
+    auto T = f.read_ints();
 
-    if(!in_file) {
-        cerr<<"Input File Not opening";
-        return 0;
-    }
+    cout<<m<<" ";
+    for(auto i:T)
+        cout<<i<<" ";
+    cout<<"\n";
 
-    int m=0, t2=0 ,t3=0, t4=0;
-    in_file>>m>>t2>>t3>>t4;
-    
     vector<vector<string>> pizza;
-    
-    string soln_file_name = "soln_"+testSet;
-
-    ofstream out_file(file_path+soln_file_name);
 
     FOR(i,0,m,1) {
-        int sz=0;
-        in_file>>sz>>ws;
-        auto ing = fread_strings(in_file);
+        int sz= f.read_once<int>();
+        auto ing = f.read_strings();
         cout<<sz<<" "<<ing.size()<<" ";
         pizza.push_back(ing);
-        fwrite_vector(out_file,ing);
+        f.write_vector(ing);
     }
 
     cout<<"\n\t\tsolution saved succesfully\n";
-
-    in_file.close();
-    out_file.close();
 
     return 0;
 }
