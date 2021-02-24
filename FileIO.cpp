@@ -2,38 +2,6 @@
 
 using namespace std;
 
-#define pb push_back
-
-#define all(c) (c).begin(), (c).end()
-
-#define sz(x) (int)(x).size()
-
-#define FOR(i, a, b, s) for (int i=(a); (s)>0?i<(b):i>(b); i+=(s))
-
-#define pii pair<int,int>
-
-#define ll long long 
-
-#define pb push_back
-
-#define S second
-
-#define F first
-
-const int MOD = 1e9+7;
-
-static const auto __optimize__ = []() {
-
-std::ios::sync_with_stdio(false);
-
-std::cin.tie(nullptr);
-
-std::cout.tie(nullptr);
-
-return 0;
-
-}();
-
 class FileIO {
     // name of the file from which the inputs are taken
     string file_name ;
@@ -98,13 +66,13 @@ class FileIO {
     
     // function to write a single literal into outfile
     template<typename T>
-    void write_once(T &data) {
+    void write(T &data) {
         out_file<<data;
     }
 
     // function to write a vector<T> into the output file
     template<typename T>
-    void write_vector(vector<T> &data) {
+    void write(vector<T> &data) {
         for(auto i:data) {
             out_file<<i<<" ";
         }
@@ -112,32 +80,3 @@ class FileIO {
     }
 
 };
-
-
-
-int main()
-{
-    FileIO f("a_example" , "D:\\Google\\HashCode21\\PraciceRound\\");
-
-    int m = f.read_once<int>();
-    auto T = f.read_ints();
-
-    cout<<m<<" ";
-    for(auto i:T)
-        cout<<i<<" ";
-    cout<<"\n";
-
-    vector<vector<string>> pizza;
-
-    FOR(i,0,m,1) {
-        int sz= f.read_once<int>();
-        auto ing = f.read_strings();
-        cout<<sz<<" "<<ing.size()<<" ";
-        pizza.push_back(ing);
-        f.write_vector(ing);
-    }
-
-    cout<<"\n\t\tsolution saved succesfully\n";
-
-    return 0;
-}
